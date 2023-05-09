@@ -6,7 +6,7 @@
 #####################
 DIR_DOTFILES="$(realpath "$(dirname "$0")")"
 DIR_DOTFILES_BACKUP="$HOME/.dotfiles.backup"
-CMD_INSTALL_DOTFILE="stow -d $DIR_DOTFILES -t $HOME --ignore=install.sh~"
+CMD_INSTALL_DOTFILE="stow -d $DIR_DOTFILES -t $HOME --ignore=install.sh"
 CMD_UNINSTALL_DOTFILE="stow -d $DIR_DOTFILES -t $HOME --ignore=install.sh -D"
 
 
