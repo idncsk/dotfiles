@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Per-branch .gitignore to support a private and public version of 
+# a repository (well, any kind of branch-based setup in fact)
+
+# Moving to git submodules
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ -e ".gitignore-$branch" ]
+then
+    cat .gitignore-$branch > .gitignore
+elif [ -e ".gitignore-default" ]
+then
+    cat .gitignore-default > .gitignore
+fi

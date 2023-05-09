@@ -1,0 +1,8 @@
+[user]
+	email = me@idnc.sk
+	name = idnc_sk
+
+[color]
+  ui = true
+[init]
+	templatedir = ~/.git-templates

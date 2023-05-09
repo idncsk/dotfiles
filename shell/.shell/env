@@ -1,0 +1,126 @@
+# Set language defaults
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# Paths
+if test -d "$HOME/.local/bin"; then
+    PATH="$PATH:$HOME/.local/bin"
+fi
+
+if test -d "$HOME/.scripts"; then
+    PATH="$PATH:$HOME/.scripts"
+fi
+
+if test -d "$HOME/.npm/packages/bin"; then
+    PATH="$PATH:$HOME/.npm/packages/bin"
+fi
+
+if test -d "$HOME/.gems/bin"; then
+    PATH="$PATH:$HOME/.gems/bin"
+fi
+
+if test -d "$HOME/Utils/bin"; then
+    PATH="$PATH:$HOME/Utils/bin"
+fi
+
+# Set XDG_RUNTIME_DIR for exotic setups
+if test -z "${XDG_RUNTIME_DIR}"; then
+    export XDG_RUNTIME_DIR=/run/user/${UID}
+    if ! test -d "${XDG_RUNTIME_DIR}"; then
+        mkdir -p "${XDG_RUNTIME_DIR}"
+        chmod 0700 "${XDG_RUNTIME_DIR}"
+    fi
+fi
+
+# XDG Base Directory Specification (https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+# Custom
+export XDG_DESKTOP_DIR="$HOME/Desktop"
+export XDG_DOWNLOAD_DIR="$HOME/Downloads"
+export XDG_DOCUMENTS_DIR="$HOME/Documents"
+export XDG_VIDEOS_DIR="$HOME/Movies"
+export XDG_MUSIC_DIR="$HOME/Music"
+export XDG_PICTURES_DIR="$HOME/Pics"
+export XDG_PUBLICSHARE_DIR="$HOME/Pub"
+
+# Runtime
+if [ "$(awk '$5=="/" {print $1}' </proc/1/mountinfo)" != "$(awk '$5=="/" {print $1}' </proc/$$/mountinfo)" ]; then
+	CHROOT=true
+else
+    CHROOT=false
+fi;
+
+# FS
+export ROOTFS=`findmnt --first-only --noheadings / -o SOURCE`
+export ROOTFS_TYPE=`findmnt --first-only --noheadings / -o FSTYPE`
+
+# Color theme (TODO: Fix)
+export TERM=screen-256color
+BASE03=$(tput setaf 234)
+BASE02=$(tput setaf 235)
+BASE01=$(tput setaf 240)
+BASE00=$(tput setaf 241)
+BASE0=$(tput setaf 244)
+BASE1=$(tput setaf 245)
+BASE2=$(tput setaf 254)
+BASE3=$(tput setaf 230)
+YELLOW=$(tput setaf 136)
+ORANGE=$(tput setaf 166)
+RED=$(tput setaf 160)
+MAGENTA=$(tput setaf 125)
+VIOLET=$(tput setaf 61)
+BLUE=$(tput setaf 33)
+CYAN=$(tput setaf 37)
+GREEN=$(tput setaf 64)
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
+# Security
+export RANDFILE=/dev/random
+
+# SSH
+export SSH_USE_STRONG_RNG=1
+export SSH_AUTH_SOCK="$HOME/.ssh/ssh-agent.sock"
+
+# SSH Agent (TODO)
+if [ ! -S $SSH_AUTH_SOCK ]; then
+	ssh-agent -a $SSH_AUTH_SOCK
+    ssh-add -l > /dev/null || ssh-add
+fi;
+
+# TODO: Network configuration
+NW_IP=""
+NW_GW=""
+NW_IF=""
+
+# Misc
+export MOZ_USE_XINPUT2=1
+export EDITOR="$(if [[ -n $DISPLAY ]]; then echo 'mousepad'; else echo 'nano'; fi)"
+
+# Less bling-bling is sometimes more
+export PAGER="less"
+export LESS="-REX"
+export LESS_TERMCAP_mb=$'\E[04;33m'
+export LESS_TERMCAP_md=$'\E[04;33m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[00;32m'
+
+# Wayland hacks
+if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+    export BEMENU_BACKEND=wayland
+    export CLUTTER_BACKEND=wayland
+    export SDL_VIDEODRIVER=wayland
+    export MOZ_ENABLE_WAYLAND=1
+    export QT_QPA_PLATFORM=wayland-egl
+    export QT_WAYLAND_FORCE_DPI=physical
+    export ECORE_EVAS_ENGINE=wayland-egl
+    export ELM_ENGINE=wayland_egl
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    export NO_AT_BRIDGE=1
+fi;
+

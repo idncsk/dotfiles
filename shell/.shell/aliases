@@ -1,0 +1,127 @@
+# Source os release info
+if test -f /etc/os-release; then
+    . /etc/os-release
+fi;
+
+# Debian/Ubuntu 
+if [[ "$NAME" == "Ubuntu" || $NAME == "Debian" ]]; then
+    alias aq='apt-cache search'
+    alias as='apt-cache search'
+    alias ai='sudo apt-get install'
+    alias ar='sudo apt-get remove'
+    alias au='sudo apt-get update && sudo apt-get upgrade'
+# Void Linux
+elif [[ "$NAME" == "Void" ]]; then
+    alias xq='xbps-query -Rs'
+    alias xi='sudo xbps-install -Rs'
+    alias xr='sudo xbps-remove -R'
+    alias xu='sudo xbps-install -Su'
+    alias xup='sudo xbps-install -Su --dry-run'
+    alias xus='sudo zfs snapshot $OS_ROOT@pre-xu_$(date +%Y%m%d_%H%M%S) && sudo xbps-install -Su'
+fi;
+
+
+#####################
+# Utils	            #
+#####################
+
+# Dotfiles
+alias dot='$HOME/.dotfiles/dot.sh'
+alias dotfiles='git --work-tree=$HOME/.dotfiles/ --git-dir=$HOME/.dotfiles/.git/'
+
+if [[ $(command -v pwgen) ]]; then
+	alias pwgen="pwgen -cnysBC | sed 's/ //g'"
+fi;
+
+if [[ $(command -v starship) ]]; then
+	alias star='eval "$(starship init bash)"'
+fi;
+
+# Screen lock
+if [[ $(command -v gnome-screensaver-command) ]]; then
+    # dbus-send --type=method_call --dest=org.gnome.ScreenSaver /org/gnome/ScreenSaver org.gnome.ScreenSaver.Lock
+    # xdg-screensaver activate lock
+	alias lock='gnome-screensaver-command --lock --activate'
+fi;
+
+# Alias cat to bat if bat is available
+if [[ $(command -v bat) ]]; then
+    alias cat='bat -p'
+    alias ccat='bat'
+fi;
+
+# Alias cat to bat if available as batcat
+if [[ $(command -v batcat) ]]; then
+    alias cat='batcat -p'
+    alias ccat='batcat'
+fi;
+
+# Fancier version of ls
+if [[ $(command -v lsd) ]]; then
+    alias ls='lsd'
+elif [[ $(command -v exa) ]]; then
+    alias ls='exa'
+else
+    alias ls='ls --color=auto'
+fi;
+
+alias l='/usr/bin/ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
+alias dir='dir --color=auto'
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# Share local files over http
+alias http_serve='python -m http.server 8080 -d '
+
+alias open='xdg-open'
+alias path='echo $PATH | tr : "\n" | uniq'
+
+
+#####################
+# SysAdmin          #
+#####################
+
+# System
+alias h='history'
+
+# Network
+alias L='netstat -tupnle'
+alias LSOCK='netstat -xpnl'
+alias LA='netstat -tupnlex'
+#alias sniff="sudo ngrep -d $NW_PRI_IF -t '^(GET|POST) ' 'tcp and port 80'"
+
+
+#####################
+# DevOPS            #
+#####################
+alias pod='podman'
+alias dok='docker'
+
+
+#####################
+# OS                #
+#####################
+alias pwrdown='echo 1 > /proc/sys/kernel/sysrq && echo b > /proc/sysrq-trigger'
+
+
+#####################
+# Personal          #
+#####################
+
+# Media
+if command -v youtube-dl; then
+	alias ytmp3='youtube-dl --extract-audio --audio-format mp3 '
+	alias sytmp3='youtube-dl --extract-audio --audio-format mp3 --proxy "socks5://127.0.0.1:9000" '
+	alias ytmp4='youtube-dl -f mp4 '
+	alias sytmp4='youtube-dl -f mp4 --proxy "socks5://127.0.0.1:9000" '
+	alias ytmp3pl='youtube-dl --extract-audio --audio-format mp3 --yes-playlist '
+	alias sytmp3pl='youtube-dl --extract-audio --audio-format mp3 --yes-playlist --proxy "socks5://127.0.0.1:9000" '
+	alias ytmp4pl='youtube-dl -f mp4 --yes-playlist '
+	alias sytmp4pl='youtube-dl -f mp4 --yes-playlist --proxy "socks5://127.0.0.1:9000" '
+fi;
+
+# Misc
+alias wttr.in='curl "https://wttr.in/"'

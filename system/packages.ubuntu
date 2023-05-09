@@ -1,0 +1,80 @@
+# Network utilities
+nmap
+zenmap
+smbclient
+inetutils-telnet
+inetutils-traceroute
+net-tools
+whois
+bind9-dnsutils
+wireshark-qt
+
+# Graphics
+mypaint
+krita
+kdenlive
+openshot-qt
+
+# Media
+audacious
+mplayer
+vlc
+vlc-plugin-access-extra
+vlc-plugin-samba
+x264
+vlc-data
+ffmpeg
+shotcut
+flameshot
+
+# Development
+code
+kwrite
+gcc
+g++
+build-essential
+git
+python3-pip
+
+# System utilities
+screen
+curl
+wget
+htop
+rsync
+stow
+zfsutils-linux
+samba
+cifs-utils
+gvfs 
+gvfs-backends 
+gvfs-common 
+gvfs-daemons 
+gvfs-fuse
+dnsutils
+ethtool
+guake
+irssi
+jq
+tsocks
+syncthing
+syncthing-gtk
+deja-dup
+rclone
+rclone-browser
+
+# Xfce
+xfce4-panel-profiles
+xfce4-goodies
+
+# Containerization
+docker
+docker-compose
+buildah
+podman
+
+# Office
+kate
+mousepad
+libreoffice-calc
+mate-calc
